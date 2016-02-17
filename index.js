@@ -189,6 +189,16 @@ TB.start = function start (testsObj) {
 		console.log(colorFunc1('------------------------------------------------------------'));
 		console.log(colorFunc1('| ') + colorFunc2(padRight(TB.summary.run, " ", 7) + ' | ' + padRight(TB.summary.passed, " ", 10) + ' | ' + padRight(TB.summary.failed, " ", 10) + ' | ' + padRight(TB.timeRecord.___totalTime + ' ms', " ", 20)) + colorFunc1(' |'));
 		console.log(colorFunc1('------------------------------------------------------------'));
+
+		if (TB.summary.failed) {
+			setTimeout(function () {
+				process.exit(1);
+			}, 200);
+		} else {
+			setTimeout(function () {
+				process.exit(0);
+			}, 200);
+		}
 	});
 };
 
