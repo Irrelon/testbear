@@ -58,9 +58,9 @@ TB.test = function test (name, codeFunc) {
 				TB.timeRecord[name] = new Date().getTime() - start;
 
 				if (!err) {
-					console.log(colors.green('Test "') + colors.green.bold(name) + colors.green('"'), colors.green.bold('PASSED'), 'and took', colors.blue.bold(TB.timeRecord[name] + ' ms'));
+					console.log(colors.green('Test "') + colors.green.bold(name) + colors.green('"'), colors.green.bold('PASSED'), 'and took', colors.magenta.bold(TB.timeRecord[name] + ' ms'));
 				} else {
-					console.log(colors.red('Test "') + colors.red.bold(name) + colors.red('"'), colors.red.bold('FAILED!'), 'and took', colors.blue.bold(TB.timeRecord[name] + ' ms'));
+					console.log(colors.red('Test "') + colors.red.bold(name) + colors.red('"'), colors.red.bold('FAILED!'), 'and took', colors.magenta.bold(TB.timeRecord[name] + ' ms'));
 				}
 				callback(err, data);
 			});
@@ -77,7 +77,7 @@ TB.test = function test (name, codeFunc) {
 				TB.summary.passed++;
 			} catch (e) {
 				TB.timeRecord[name] = new Date().getTime() - start;
-				console.log(colors.red('Test "') + colors.red.bold(name) + colors.red('"'), colors.red.bold('FAILED!'), 'and took', colors.blue.bold(TB.timeRecord[name] + ' ms'));
+				console.log(colors.red('Test "') + colors.red.bold(name) + colors.red('"'), colors.red.bold('FAILED!'), 'and took', colors.magenta.bold(TB.timeRecord[name] + ' ms'));
 				console.log(colors.red.bold('Error:', e));
 
 				TB.testResult[name] = false;
