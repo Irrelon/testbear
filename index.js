@@ -173,7 +173,6 @@ TB.start = function start (testsObj) {
 		console.log(colorFunc1('------------------------------------------------------------'));
 		console.log(colorFunc1('| ') + colorFunc2(padRight(TB.summary.run, " ", 7) + ' | ' + padRight(TB.summary.passed, " ", 10) + ' | ' + padRight(TB.summary.failed, " ", 10) + ' | ' + padRight(TB.time.___totalTime + ' ms', " ", 20)) + colorFunc1(' |'));
 		console.log(colorFunc1('------------------------------------------------------------'));
-		console.log(" ");
 	});
 };
 
