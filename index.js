@@ -113,6 +113,10 @@ TB.ok = function ok (val, name) {
 };
 
 TB.start = function start (testsObj) {
+	if (testsObj === undefined) {
+		testsObj = TB.tests;
+	}
+
 	TB.time.__startTime = new Date().getTime();
 
 	console.log('Starting tests...');
