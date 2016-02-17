@@ -82,7 +82,9 @@ tb.start();
 ## API
 
 ### test
-Defines a new test.
+Defines a new test. Test names must be unique. Declaring a test with the same
+name as a previously declared test will result in overwriting the previous one
+and only running the last one declared.
 
 ```js
 tb.test(<test name>, <test function>);
