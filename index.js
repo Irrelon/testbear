@@ -101,7 +101,7 @@ TB.time = function time (name) {
 		TB.timeStepRecord[name] = totalTime;
 		delete TB.timeStep[name];
 
-		console.log(colors.blue('Timed Action "') + colors.blue.bold(name) + colors.blue('" took ') + colors.magenta.bold(totalTime + ' ms'));
+		console.log(colors.blue('Timed Action "') + colors.magenta.bold(name) + colors.blue('" took ') + colors.magenta.bold(totalTime + ' ms'));
 	}
 };
 
