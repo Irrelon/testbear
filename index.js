@@ -120,10 +120,16 @@ TB.start = function start (testsObj) {
 
 	TB.time.__startTime = new Date().getTime();
 
-	console.log('------------------------------------------------');
-	console.log('Starting tests...');
+	/*if (TB.config.cuteMode) {
+		console.log("                        _     _");
+		console.log("                       ( \\---/ )");
+		console.log("                        ) . . (");
+		console.log("__________________,--._(___Y___)_,--.______________________");
+		console.log("                  `--'           `--'     ");
+	}*/
+
 	console.log('Total test count: ' + Object.keys(testsObj).length);
-	console.log('------------------------------------------------');
+	console.log('');
 	async.series(testsObj, function (err, results) {
 		var colorFunc1,
 			colorFunc2;
@@ -134,17 +140,9 @@ TB.start = function start (testsObj) {
 			colorFunc1 = colors.red.bold;
 			colorFunc2 = colors.red;
 		} else {
-			colorFunc1 = colors.black.bold;
-			colorFunc2 = colors.black;
+			colorFunc1 = function (str) {return str;};
+			colorFunc2 = function (str) {return str;};
 		}
-
-		console.log(" ");
-		console.log(colorFunc1('------------------------------------------------------------'));
-		console.log(colorFunc1('| Run     | Passed     | Failed     | Total Time           |'));
-		console.log(colorFunc1('------------------------------------------------------------'));
-		console.log(colorFunc1('| ') + colorFunc2(padRight(TB.summary.run, " ", 7) + ' | ' + padRight(TB.summary.passed, " ", 10) + ' | ' + padRight(TB.summary.failed, " ", 10) + ' | ' + padRight(TB.time.___totalTime + ' ms', " ", 20)) + colorFunc1(' |'));
-		console.log(colorFunc1('------------------------------------------------------------'));
-		console.log(" ");
 
 		if (TB.config.cuteMode) {
 			if (TB.summary.failed) {
@@ -156,19 +154,24 @@ TB.start = function start (testsObj) {
 				console.log("        Test Bear is SAD      ");
 				console.log("");
 			} else {
-				console.log('             _     _');
-				console.log('            (o\---/o)   ');
-				console.log('             ( , , )');
-				console.log('      ___,~~.(_(T)_),~~.__');
-				console.log('     |   "--"       "--"  |');
-				console.log('     |    Test Bear is    |');
-				console.log('     |        HAPPY!      |');
-				console.log('     |    _,-.    ,-._    |');
-				console.log('     |___(ooO )__( Ooo)___|');
-				console.log('          "--"    "--" ');
-				console.log('');
+				console.log('                        _     _');
+				console.log('                       (o\\---/o)   ');
+				console.log('                        ( , , )');
+				console.log('                 ___,~~.(_(T)_),~~.__');
+				console.log('                |   "--"       "--"  |');
+				console.log('                | Test Bear is HAPPY |');
+				console.log('                |    _,-.    ,-._    |');
+				console.log('                |___(ooO )__( Ooo)___|');
+				console.log('                     "--"    "--" ');
 			}
 		}
+
+		console.log(colorFunc1('------------------------------------------------------------'));
+		console.log(colorFunc1('| Run     | Passed     | Failed     | Total Time           |'));
+		console.log(colorFunc1('------------------------------------------------------------'));
+		console.log(colorFunc1('| ') + colorFunc2(padRight(TB.summary.run, " ", 7) + ' | ' + padRight(TB.summary.passed, " ", 10) + ' | ' + padRight(TB.summary.failed, " ", 10) + ' | ' + padRight(TB.time.___totalTime + ' ms', " ", 20)) + colorFunc1(' |'));
+		console.log(colorFunc1('------------------------------------------------------------'));
+		console.log(" ");
 	});
 };
 
