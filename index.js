@@ -27,8 +27,9 @@ padRight = function padRight (str, padStr, totalLength) {
 TB = {};
 
 TB.config = {
-		noCatch: false
-	};
+	noCatch: false,
+	cuteMode: true
+};
 TB.tests = {};
 TB.testResult = {};
 TB.summary = {
@@ -143,6 +144,31 @@ TB.start = function start (testsObj) {
 		console.log(colorFunc1('------------------------------------------------------------'));
 		console.log(colorFunc1('| ') + colorFunc2(padRight(TB.summary.run, " ", 7) + ' | ' + padRight(TB.summary.passed, " ", 10) + ' | ' + padRight(TB.summary.failed, " ", 10) + ' | ' + padRight(TB.time.___totalTime + ' ms', " ", 20)) + colorFunc1(' |'));
 		console.log(colorFunc1('------------------------------------------------------------'));
+		console.log(" ");
+
+		if (TB.config.cuteMode) {
+			if (TB.summary.failed) {
+				console.log("            _     _");
+				console.log("           ( \---/ )");
+				console.log("            ) . . (");
+				console.log("______,--._(___Y___)_,--._____");
+				console.log("      `--'           `--'     ");
+				console.log("        Test Bear is SAD      ");
+				console.log("");
+			} else {
+				console.log('             _     _');
+				console.log('            (o\---/o)   ');
+				console.log('             ( , , )');
+				console.log('      ___,~~.(_(T)_),~~.__');
+				console.log('     |   "--"       "--"  |');
+				console.log('     |    Test Bear is    |');
+				console.log('     |        HAPPY!      |');
+				console.log('     |    _,-.    ,-._    |');
+				console.log('     |___(ooO )__( Ooo)___|');
+				console.log('          "--"    "--" ');
+				console.log('');
+			}
+		}
 	});
 };
 
