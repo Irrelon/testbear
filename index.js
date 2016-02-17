@@ -140,3 +140,5 @@ TB.start = function start (testsObj) {
 		console.log(colorFunc1('------------------------------------------------------------'));
 	});
 };
+
+module.exports = TB;
