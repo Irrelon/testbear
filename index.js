@@ -119,8 +119,9 @@ TB.start = function start (testsObj) {
 
 	TB.time.__startTime = new Date().getTime();
 
+	console.log('------------------------------------------------');
 	console.log('Starting tests...');
-	console.log('Total test count: ' + Object.keys(tests).length);
+	console.log('Total test count: ' + Object.keys(testsObj).length);
 	console.log('------------------------------------------------');
 	async.series(testsObj, function (err, results) {
 		var colorFunc1,
