@@ -1,6 +1,6 @@
 {
   "name": "testbear",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "A test framework similar to QUnit but very lightweight and simple to use.",
   "main": "index.js",
   "scripts": {

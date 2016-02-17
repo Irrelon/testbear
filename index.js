@@ -37,10 +37,12 @@ TB.summary = {
 	passed: 0,
 	failed: 0
 };
-TB.time = {
+TB.timeRecord = {
 	"__startTime": 0,
 	"___totalTime": 0
 };
+TB.timeStepRecord = {};
+TB.timeStep = {};
 
 TB.test = function test (name, codeFunc) {
 	TB.tests[name] = function (callback) {
@@ -53,12 +55,12 @@ TB.test = function test (name, codeFunc) {
 
 		testEnclosure = function () {
 			return codeFunc(function (err, data) {
-				TB.time[name] = new Date().getTime() - start;
+				TB.timeRecord[name] = new Date().getTime() - start;
 
 				if (!err) {
-					console.log(colors.green('Test "') + colors.green.bold(name) + colors.green('"'), colors.green.bold('PASSED'), colors.blue(TB.time[name] + ' ms'));
+					console.log(colors.green('Test "') + colors.green.bold(name) + colors.green('"'), colors.green.bold('PASSED'), colors.blue(TB.timeRecord[name] + ' ms'));
 				} else {
-					console.log(colors.red('Test "') + colors.red.bold(name) + colors.red('"'), colors.red.bold('FAILED!'), colors.blue(TB.time[name] + ' ms'));
+					console.log(colors.red('Test "') + colors.red.bold(name) + colors.red('"'), colors.red.bold('FAILED!'), colors.blue(TB.timeRecord[name] + ' ms'));
 				}
 				callback(err, data);
 			});
@@ -74,8 +76,8 @@ TB.test = function test (name, codeFunc) {
 				TB.testResult[name] = true;
 				TB.summary.passed++;
 			} catch (e) {
-				TB.time[name] = new Date().getTime() - start;
-				console.log(colors.red('Test "') + colors.red.bold(name) + colors.red('"'), colors.red.bold('FAILED!'), colors.blue(TB.time[name] + ' ms'));
+				TB.timeRecord[name] = new Date().getTime() - start;
+				console.log(colors.red('Test "') + colors.red.bold(name) + colors.red('"'), colors.red.bold('FAILED!'), colors.blue(TB.timeRecord[name] + ' ms'));
 				console.log(colors.red.bold('Error:', e));
 
 				TB.testResult[name] = false;
@@ -87,6 +89,20 @@ TB.test = function test (name, codeFunc) {
 			}
 		}
 	};
+};
+
+TB.time = function time (name) {
+	var totalTime = 0;
+
+	if (TB.timeStep[name] === undefined) {
+		TB.timeStep[name] = new Date().getTime();
+	} else {
+		totalTime = new Date().getTime() - TB.timeStep[name];
+		TB.timeStepRecord[name] = totalTime;
+		delete TB.timeStep[name];
+
+		console.log(colors.blue('Timed Action "') + colors.blue.bold(name) + colors.blue('" took ') + colors.magenta(totalTime + ' ms'));
+	}
 };
 
 TB.strictEqual = function strictEqual (val1, val2, name) {
@@ -118,7 +134,7 @@ TB.start = function start (testsObj) {
 		testsObj = TB.tests;
 	}
 
-	TB.time.__startTime = new Date().getTime();
+	TB.timeRecord.__startTime = new Date().getTime();
 
 	/*if (TB.config.cuteMode) {
 		console.log("                        _     _");
@@ -134,7 +150,7 @@ TB.start = function start (testsObj) {
 		var colorFunc1,
 			colorFunc2;
 
-		TB.time.___totalTime = new Date().getTime() - TB.time.__startTime;
+		TB.timeRecord.___totalTime = new Date().getTime() - TB.timeRecord.__startTime;
 
 		if (TB.summary.failed) {
 			colorFunc1 = colors.red.bold;
@@ -171,7 +187,7 @@ TB.start = function start (testsObj) {
 		console.log(colorFunc1('------------------------------------------------------------'));
 		console.log(colorFunc1('| Run     | Passed     | Failed     | Total Time           |'));
 		console.log(colorFunc1('------------------------------------------------------------'));
-		console.log(colorFunc1('| ') + colorFunc2(padRight(TB.summary.run, " ", 7) + ' | ' + padRight(TB.summary.passed, " ", 10) + ' | ' + padRight(TB.summary.failed, " ", 10) + ' | ' + padRight(TB.time.___totalTime + ' ms', " ", 20)) + colorFunc1(' |'));
+		console.log(colorFunc1('| ') + colorFunc2(padRight(TB.summary.run, " ", 7) + ' | ' + padRight(TB.summary.passed, " ", 10) + ' | ' + padRight(TB.summary.failed, " ", 10) + ' | ' + padRight(TB.timeRecord.___totalTime + ' ms', " ", 20)) + colorFunc1(' |'));
 		console.log(colorFunc1('------------------------------------------------------------'));
 	});
 };
