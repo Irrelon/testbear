@@ -62,6 +62,8 @@ TB.test = function test (name, codeFunc) {
 				} else {
 					console.log(colors.red('Test "') + colors.red.bold(name) + colors.red('"'), colors.red.bold('FAILED!'), 'and took', colors.magenta.bold(TB.timeRecord[name] + ' ms'));
 				}
+
+				TB.summary.passed++;
 				callback(err, data);
 			});
 		};
@@ -74,7 +76,6 @@ TB.test = function test (name, codeFunc) {
 			try {
 				testEnclosure();
 				TB.testResult[name] = true;
-				TB.summary.passed++;
 			} catch (e) {
 				TB.timeRecord[name] = new Date().getTime() - start;
 				console.log(colors.red('Test "') + colors.red.bold(name) + colors.red('"'), colors.red.bold('FAILED!'), 'and took', colors.magenta.bold(TB.timeRecord[name] + ' ms'));

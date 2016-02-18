@@ -6,6 +6,7 @@ TB.test('My test test', function (callback) {
 
 	}
 	TB.time('My time step');
+	TB.ok(true, 'Check that true is truthy');
 
 	callback();
 });
