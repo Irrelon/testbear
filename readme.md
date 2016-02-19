@@ -1,5 +1,5 @@
 # Testbear
-Testbear is developed with love by [Irrelon Software Limited](http://www.irrelon.com/),
+Testbear is developed with ❤ love by [Irrelon Software Limited](http://www.irrelon.com/),
 a UK registered company.
 
 ```
@@ -164,3 +164,8 @@ Starts running the tests you have defined:
 ```js
 tb.start();
 ```
+
+## Contributing to This Project
+This project is mediated by [Irrelon Software Limited](http://www.irrelon.com).
+All contributions are welcome. Please submit a pull request to contribute your
+updates.
