@@ -164,24 +164,24 @@ TB.start = function start (testsObj) {
 		if (TB.config.cuteMode) {
 			if (TB.summary.failed) {
 				console.log('                        _     _');
-				console.log('                       (o\\---/o)   ');
-				console.log('                        ( , , )');
-				console.log('                 ___,~~.(_(T)_),~~.__');
-				console.log('                |   "--"       "--"  |');
-				console.log('                | Test Bear is SAD!! |');
-				console.log('                |    _,-.    ,-._    |');
-				console.log('                |___(ooO )__( Ooo)___|');
-				console.log('                     "--"    "--" ');
+				console.log('                       ( \\---/ )   ');
+				console.log('                        ( . . )');
+				console.log('                 ___,--.(__Y__),--.___');
+				console.log('                |   `--\'       `--\'   |');
+				console.log('                | Test Bear is SAD!!! |');
+				console.log('                |    _,-.     ,-._    |');
+				console.log('                |___(ooO )___( Ooo)___|');
+				console.log('                     `--\'     `--\' ');
 			} else {
 				console.log('                        _     _');
-				console.log('                       (o\\---/o)   ');
-				console.log('                        ( , , )');
-				console.log('                 ___,~~.(_(T)_),~~.__');
-				console.log('                |   "--"       "--"  |');
-				console.log('                | Test Bear is HAPPY |');
-				console.log('                |    _,-.    ,-._    |');
-				console.log('                |___(ooO )__( Ooo)___|');
-				console.log('                     "--"    "--" ');
+				console.log('                       ( \\---/ )   ');
+				console.log('                        ( . . )');
+				console.log('                 ___,--.(__Y__),--.___');
+				console.log('                |   `--\'       `--\'   |');
+				console.log('                | Test Bear is HAPPY! |');
+				console.log('                |    _,-.     ,-._    |');
+				console.log('                |___(ooO )___( Ooo)___|');
+				console.log('                     `--\'     `--\' ');
 			}
 		}
 

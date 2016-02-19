@@ -1,5 +1,11 @@
 # Testbear
-A very lightweight and simple test framework for Node.js.
+                        _     _
+                       ( \---/ )
+                        ) . . (
+__________________,--._(___Y___)_,--.______________________
+                  `--'           `--'     
+A very lightweight and simple test framework for Node.js...
+and your test results are presented by a teddy bear.
 
 ## Install
 You can install testbear via NPM:
@@ -93,7 +99,7 @@ tb.test(<test name>, <test function>);
 Your test function will be passed a callback as the first argument, call it once
 your test is complete and you want testbear to move on to the next test.
 
-If testbear is hanging it's probably because you've forgotton to call the callback
+If testbear is hanging it's probably because you've forgotten to call the callback
 somewhere in your test!
 
 E.g.

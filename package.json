@@ -1,23 +1,24 @@
 {
-  "name": "testbear",
-  "version": "1.0.16",
-  "description": "A test framework similar to QUnit but very lightweight and simple to use.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "test",
-    "framework"
-  ],
-  "author": "Rob Evans (Irrelon Software Limited)",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/irrelon/testbear.git"
-  },
-  "dependencies": {
-    "async": "^1.5.2",
-    "colors": "^1.1.2"
-  }
+	"name": "testbear",
+	"version": "1.0.17",
+	"description": "A test framework similar to QUnit but very lightweight and simple to use.",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [
+		"test",
+		"framework",
+		"qunit"
+	],
+	"author": "Rob Evans (Irrelon Software Limited)",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/irrelon/testbear.git"
+	},
+	"dependencies": {
+		"async": "^1.5.2",
+		"colors": "^1.1.2"
+	}
 }
