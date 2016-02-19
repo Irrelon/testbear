@@ -1,4 +1,6 @@
 # Testbear
+Testbear is developed with love by [Irrelon Software Limited](http://www.irrelon.com/),
+a UK registered company.
 
 ```
                         _     _
