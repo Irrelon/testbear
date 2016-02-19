@@ -1,9 +1,13 @@
 # Testbear
+
+```
                         _     _
                        ( \---/ )
                         ) . . (
 __________________,--._(___Y___)_,--.______________________
-                  `--'           `--'     
+                  `--'           `--'
+```
+
 A very lightweight and simple test framework for Node.js...
 and your test results are presented by a teddy bear.
 
