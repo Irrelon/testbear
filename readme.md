@@ -11,7 +11,8 @@ __________________,--._(___Y___)_,--.______________________
 ```
 
 A very lightweight and simple test framework for Node.js...
-and your test results are presented by a teddy bear.
+and your test results are presented by a teddy bear... which
+let's face it, is the best way to present your test results.
 
 ## Install
 You can install testbear via NPM:
