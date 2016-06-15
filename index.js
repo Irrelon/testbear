@@ -46,7 +46,31 @@ TB.timeStepRecord = {};
 TB.timeStep = {};
 
 TB.test = new Overload({
-	'string, function': function test (name, codeFunc) {
+	/**
+	 * Define a test by name and function.
+	 * @param {String} name The name of the test, must be unique.
+	 * @param {Function} codeFunc The function containing the test
+	 * code that executes various assertions.
+	 * @returns {*}
+	 */
+	'string, function': function (name, codeFunc) {
+		return this.$main.call(this, name, {}, codeFunc);
+	},
+
+	/**
+	 * Define a test by name, options and function.
+	 * @param {String} name The name of the test, must be unique.
+	 * @param {Object} options The test options such as timeout and
+	 * number of assertions to expect.
+	 * @param {Function} codeFunc The function containing the test
+	 * code that executes various assertions.
+	 * @returns {*}
+	 */
+	'string, object, function': function (name, options, codeFunc) {
+		return this.$main.call(this, name, options, codeFunc);
+	},
+
+	'$main': function test (name, options, codeFunc) {
 		TB.tests[name] = function (callback) {
 			var start,
 				testEnclosure;
@@ -92,6 +116,22 @@ TB.test = new Overload({
 				}
 			}
 		};
+
+		// Check if we have a timeout for the test
+		if (options && options.timeout) {
+			// We have a test timeout, wrap the test function in another
+			// function that checks for timeouts and returns an error to
+			// the callback if the timeout is exceeded
+		}
+
+		// Check if we have an expected number of assertions
+		if (options && typeof options.expect === 'number') {
+			// We have a number of expected assertions. After the function
+			// for the test has executed, the callback will call this wrapper
+			// function and we will then determine how many assertions were
+			// made and if it matches the expected number of assertions.
+
+		}
 	}
 });
 
