@@ -51,7 +51,7 @@ tb.start();
 ```
 
 > Testbear tests are always run assuming that they require some async processing
-so will not finish processing until you call callback() which is passed to your
+so will not finish processing until you call finish() which is passed to your
 test method as the first argument. IF YOU DON'T CALL THE CALLBACK METHOD, YOUR
 TEST WILL NEVER FINISH!
 
@@ -59,9 +59,9 @@ TEST WILL NEVER FINISH!
 Define a test and run some checks. This example will always pass:
 
 ```js
-tb.test('Test if true strict equals true', function (callback) {
+tb.test('Test if true strict equals true', function (finish) {
 	strictEqual(true, true, 'True is true');
-	callback();
+	finish();
 });
 
 tb.start();
@@ -70,9 +70,9 @@ tb.start();
 This example will always fail:
 
 ```js
-tb.test('Test if true strict equals false', function (callback) {
+tb.test('Test if true strict equals false', function (finish) {
 	strictEqual(true, false, 'True is false');
-	callback();
+	finish();
 });
 
 tb.start();
@@ -81,12 +81,12 @@ tb.start();
 You can also throw errors in your tests to fail them:
 
 ```js
-tb.test('Test if true strict equals true', function (callback) {
+tb.test('Test if true strict equals true', function (finish) {
 	strictEqual(true, true, 'True is true');
 	
 	throw('I will fail this test');
 	
-	callback();
+	finish();
 });
 
 tb.start();
@@ -112,9 +112,9 @@ somewhere in your test!
 E.g.
 
 ```js
-tb.test('Check that window is an object', function (callback) {
+tb.test('Check that window is an object', function (finish) {
 	ok(typeof window === 'object', "Check window is an object");
-	callback();
+	finish();
 });
 ```
 
