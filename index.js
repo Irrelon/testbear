@@ -5,6 +5,7 @@ process.env.ALLOW_COLORS = true;
 
 var async = require('async'),
 	colors = require('colors/safe'),
+	Overload = require('irrelon-overload'),
 	padRight,
 	TB;
 
@@ -44,53 +45,55 @@ TB.timeRecord = {
 TB.timeStepRecord = {};
 TB.timeStep = {};
 
-TB.test = function test (name, codeFunc) {
-	TB.tests[name] = function (callback) {
-		var start,
-			testEnclosure;
+TB.test = new Overload({
+	'string, function': function test (name, codeFunc) {
+		TB.tests[name] = function (callback) {
+			var start,
+				testEnclosure;
 
-		console.log(colors.green('Test "') + colors.green.bold(name) + colors.green('"'), colors.green('started'));
+			console.log(colors.green('Test "') + colors.green.bold(name) + colors.green('"'), colors.green('started'));
 
-		start = new Date().getTime();
+			start = new Date().getTime();
 
-		testEnclosure = function () {
-			return codeFunc(function (err, data) {
-				TB.timeRecord[name] = new Date().getTime() - start;
+			testEnclosure = function () {
+				return codeFunc(function (err, data) {
+					TB.timeRecord[name] = new Date().getTime() - start;
 
-				if (!err) {
-					console.log(colors.green('Test "') + colors.green.bold(name) + colors.green('"'), colors.green.bold('PASSED'), 'and took', colors.magenta.bold(TB.timeRecord[name] + ' ms'));
-				} else {
-					console.log(colors.red('Test "') + colors.red.bold(name) + colors.red('"'), colors.red.bold('FAILED!'), 'and took', colors.magenta.bold(TB.timeRecord[name] + ' ms'));
-				}
+					if (!err) {
+						console.log(colors.green('Test "') + colors.green.bold(name) + colors.green('"'), colors.green.bold('PASSED'), 'and took', colors.magenta.bold(TB.timeRecord[name] + ' ms'));
+					} else {
+						console.log(colors.red('Test "') + colors.red.bold(name) + colors.red('"'), colors.red.bold('FAILED!'), 'and took', colors.magenta.bold(TB.timeRecord[name] + ' ms'));
+					}
 
-				TB.summary.passed++;
-				callback(err, data);
-			});
-		};
-
-		TB.summary.run++;
-
-		if (TB.config.noCatch) {
-			testEnclosure();
-		} else {
-			try {
-				testEnclosure();
-				TB.testResult[name] = true;
-			} catch (e) {
-				TB.timeRecord[name] = new Date().getTime() - start;
-				console.log(colors.red('Test "') + colors.red.bold(name) + colors.red('"'), colors.red.bold('FAILED!'), 'and took', colors.magenta.bold(TB.timeRecord[name] + ' ms'));
-				console.log(colors.red.bold('Error:', e));
-
-				TB.testResult[name] = false;
-				TB.summary.failed++;
-
-				setImmediate(function () {
-					callback(false);
+					TB.summary.passed++;
+					callback(err, data);
 				});
+			};
+
+			TB.summary.run++;
+
+			if (TB.config.noCatch) {
+				testEnclosure();
+			} else {
+				try {
+					testEnclosure();
+					TB.testResult[name] = true;
+				} catch (e) {
+					TB.timeRecord[name] = new Date().getTime() - start;
+					console.log(colors.red('Test "') + colors.red.bold(name) + colors.red('"'), colors.red.bold('FAILED!'), 'and took', colors.magenta.bold(TB.timeRecord[name] + ' ms'));
+					console.log(colors.red.bold('Error:', e));
+
+					TB.testResult[name] = false;
+					TB.summary.failed++;
+
+					setImmediate(function () {
+						callback(false);
+					});
+				}
 			}
-		}
-	};
-};
+		};
+	}
+});
 
 TB.time = function time (name) {
 	var totalTime = 0;
