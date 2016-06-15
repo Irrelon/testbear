@@ -40,7 +40,7 @@ TB.summary = {
 };
 TB.timeRecord = {
 	"__startTime": 0,
-	"___totalTime": 0
+	"__totalTime": 0
 };
 TB.timeStepRecord = {};
 TB.timeStep = {};
@@ -154,7 +154,7 @@ TB.start = function start (testsObj) {
 		var colorFunc1,
 			colorFunc2;
 
-		TB.timeRecord.___totalTime = new Date().getTime() - TB.timeRecord.__startTime;
+		TB.timeRecord.__totalTime = new Date().getTime() - TB.timeRecord.__startTime;
 
 		if (TB.summary.failed) {
 			colorFunc1 = colors.red.bold;
@@ -191,7 +191,7 @@ TB.start = function start (testsObj) {
 		console.log(colorFunc1('------------------------------------------------------------'));
 		console.log(colorFunc1('| Run     | Passed     | Failed     | Total Time           |'));
 		console.log(colorFunc1('------------------------------------------------------------'));
-		console.log(colorFunc1('| ') + colorFunc2(padRight(TB.summary.run, " ", 7) + ' | ' + padRight(TB.summary.passed, " ", 10) + ' | ' + padRight(TB.summary.failed, " ", 10) + ' | ' + padRight(TB.timeRecord.___totalTime + ' ms', " ", 20)) + colorFunc1(' |'));
+		console.log(colorFunc1('| ') + colorFunc2(padRight(TB.summary.run, " ", 7) + ' | ' + padRight(TB.summary.passed, " ", 10) + ' | ' + padRight(TB.summary.failed, " ", 10) + ' | ' + padRight(TB.timeRecord.__totalTime + ' ms', " ", 20)) + colorFunc1(' |'));
 		console.log(colorFunc1('------------------------------------------------------------'));
 
 		if (TB.summary.failed) {
