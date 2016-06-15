@@ -60,7 +60,7 @@ Define a test and run some checks. This example will always pass:
 
 ```js
 tb.test('Test if true strict equals true', function (finish) {
-	strictEqual(true, true, 'True is true');
+	tb.strictEqual(true, true, 'True is true');
 	finish();
 });
 
@@ -71,7 +71,7 @@ This example will always fail:
 
 ```js
 tb.test('Test if true strict equals false', function (finish) {
-	strictEqual(true, false, 'True is false');
+	tb.strictEqual(true, false, 'True is false');
 	finish();
 });
 
@@ -82,7 +82,7 @@ You can also throw errors in your tests to fail them:
 
 ```js
 tb.test('Test if true strict equals true', function (finish) {
-	strictEqual(true, true, 'True is true');
+	tb.strictEqual(true, true, 'True is true');
 	
 	throw('I will fail this test');
 	
@@ -113,7 +113,7 @@ E.g.
 
 ```js
 tb.test('Check that window is an object', function (finish) {
-	ok(typeof window === 'object', "Check window is an object");
+	tb.ok(typeof window === 'object', "Check window is an object");
 	finish();
 });
 ```
