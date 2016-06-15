@@ -36,6 +36,7 @@ a few commands:
 * ok()
 * equal()
 * strictEqual()
+* expect()
 * start()
 
 You define tests by calling test:
@@ -140,12 +141,14 @@ tb.ok(<argument 1>, <name of this check>);
 ```
 
 ### time
-Reports the time taken between two time calls:
+Reports the time taken between two time calls.
+
+> The first call to time() does not increment the assertion count. 
 
 ```js
 tb.time(<name of time step>);
 ... some code to time
-tb.time(<name of time step>);
+tb.time(<name of time step>[, <maxMilliseconds>]);
 ```
 
 E.g.
@@ -153,11 +156,30 @@ E.g.
 ```js
 tb.time('My long process');
 for (var i = 0; i < 10000000; i++) {}
-tb.time('My long process');
+tb.time('My long process', 500);
 ```
 
 > **Notice** that you must use the same string name between two time calls
 for them to know which time step has started and finished.
+
+> If you pass a number into the second time() call as the second parameter
+it will be used to compare against the time taken to execute the operation.
+If the time take is greater than the number passed the assertion will fail.
+This allows you to set maximum times for operations in your tests and have
+them fail if they take too long.
+
+### expect
+Checks that the number of assertions that have run since before the call
+to expect() equals the number you pass. The name for an expect call
+(second parameter) is optional.
+
+> Unlike other calls, the expect() call is not counted as an assertion. This
+ means that you can call expect() one after the other and get the same result
+ until you execute another assertion method such as ok(), equal() etc.
+
+```js
+tb.expect(<number>[, <name of this check>]);
+```
 
 ### start
 Starts running the tests you have defined:
