@@ -4,7 +4,7 @@
 process.env.ALLOW_COLORS = true;
 
 var async = require('async'),
-	colors = require('colors/safe'),
+	colors = require('irrelon-colors/safe'),
 	Overload = require('irrelon-overload'),
 	padRight,
 	TB;
