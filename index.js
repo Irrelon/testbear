@@ -210,7 +210,7 @@ TB.expect = function (num, name) {
 TB.strictEqual = function strictEqual (val1, val2, name) {
 	TB.assertions++;
 	if (val1 !== val2) {
-		throw("STRICT\t " + name + ' expected ' + JSON.stringify(val1) + ' but got ' + JSON.stringify(val2));
+		throw("STRICT\t " + name + ' expected ' + JSON.stringify(val2) + ' but got ' + JSON.stringify(val1));
 	} else {
 		console.log(TB.indent + colors.green.bold('PASSED\t'), colors.green.bold('STRICT\t'), colors.green.bold(name));
 	}
@@ -219,7 +219,7 @@ TB.strictEqual = function strictEqual (val1, val2, name) {
 TB.equal = function equal (val1, val2, name) {
 	TB.assertions++;
 	if (val1 != val2) {
-		throw("EQUAL\t " + name + ' expected ' + JSON.stringify(val1) + ' but got ' + JSON.stringify(val2));
+		throw("EQUAL\t " + name + ' expected ' + JSON.stringify(val2) + ' but got ' + JSON.stringify(val1));
 	} else {
 		console.log(TB.indent + colors.green.bold('PASSED\t'), colors.green.bold('EQUAL\t'), colors.green.bold(name));
 	}
