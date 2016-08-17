@@ -339,6 +339,9 @@ TB.start = function start (groupsObj) {
 			}, 200);
 		}
 	});
+	
+	// Keep the test system alive until we explicitly exit
+	setInterval(function () {}, 100000);
 };
 
 module.exports = TB;
