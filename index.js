@@ -11,17 +11,17 @@ var async = require('async'),
 
 padRight = function padRight (str, padStr, totalLength) {
 	var i;
-
+	
 	str = String(str);
-
+	
 	if (str.length >= totalLength) {
 		return str;
 	}
-
+	
 	for (i = str.length; i < totalLength; i++) {
 		str = str + padStr;
 	}
-
+	
 	return str;
 };
 
@@ -56,7 +56,7 @@ TB.test = new Overload({
 	'string, function': function (name, codeFunc) {
 		return this.$main.call(this, '', name, {}, codeFunc);
 	},
-
+	
 	/**
 	 * Define a test by group, name and function.
 	 * @param {String} group The group this test belongs to.
@@ -68,7 +68,7 @@ TB.test = new Overload({
 	'string, string, function': function (group, name, codeFunc) {
 		return this.$main.call(this, group, name, {}, codeFunc);
 	},
-
+	
 	/**
 	 * Define a test by name, options and function.
 	 * @param {String} name The name of the test, must be unique.
@@ -81,7 +81,7 @@ TB.test = new Overload({
 	'string, object, function': function (name, options, codeFunc) {
 		return this.$main.call(this, '', name, options, codeFunc);
 	},
-
+	
 	/**
 	 * Define a test by group, name, options and function.
 	 * @param {String} name The name of the test, must be unique.
@@ -95,52 +95,66 @@ TB.test = new Overload({
 	'string, string, object, function': function (group, name, options, codeFunc) {
 		return this.$main.call(this, group, name, options, codeFunc);
 	},
-
+	
 	'$main': function test (group, name, options, codeFunc) {
 		if (!group) {
 			group = 'All'
 		}
-
+		
 		if (options && options.indent || options.indent === undefined) {
 			TB.indent = "\t";
 		}
-
+		
 		TB.tests[group] = TB.tests[group] || {};
 		TB.tests[group][name] = function (callback) {
 			var start,
-				testEnclosure;
-
+				testEnclosure,
+				testTimeout,
+				timedOut = false
+			
 			TB.assertions = 0;
 			TB.currentGroup = group;
-
+			
 			console.log(colors.cyan.bold(TB.currentGroup + ' -'), colors.green.bold(name));
 			console.log('');
 			console.log(TB.indent + 'RESULT\t ACTION\t LOG');
 			console.log(TB.indent + '----------------------------------------------------');
-
+			
 			start = new Date().getTime();
-
+			
 			testEnclosure = function () {
+				testTimeout = setTimeout(function () {
+					timedOut = true;
+					
+					TB.summary.failed++;
+					TB.testResult[name] = false;
+					
+					throw('TIMEOUT\t Test timed out!');
+				}, options.timeout || TB.timeout);
+				
 				return codeFunc(function (err, data) {
-					TB.timeRecord[name] = new Date().getTime() - start;
-
-					console.log(TB.indent + '----------------------------------------------------');
-
-					if (!err) {
-						console.log(TB.indent + colors.green.bold('PASSED\t'), 'Ran ' + TB.assertions + ' assertions and took', colors.magenta.bold(TB.timeRecord[name] + ' ms'));
-						console.log('');
-					} else {
-						console.log(TB.indent + colors.red.bold('FAILED\t'), 'Ran ' + TB.assertions + ' assertions and took', colors.magenta.bold(TB.timeRecord[name] + ' ms'));
-						console.log('');
+					if (!timedOut) {
+						clearTimeout(testTimeout);
+						TB.timeRecord[name] = new Date().getTime() - start;
+						
+						console.log(TB.indent + '----------------------------------------------------');
+						
+						if (!err) {
+							console.log(TB.indent + colors.green.bold('PASSED\t'), 'Ran ' + TB.assertions + ' assertions and took', colors.magenta.bold(TB.timeRecord[name] + ' ms'));
+							console.log('');
+						} else {
+							console.log(TB.indent + colors.red.bold('FAILED\t'), 'Ran ' + TB.assertions + ' assertions and took', colors.magenta.bold(TB.timeRecord[name] + ' ms'));
+							console.log('');
+						}
+						
+						TB.summary.passed++;
+						callback(err, data);
 					}
-
-					TB.summary.passed++;
-					callback(err, data);
 				});
 			};
-
+			
 			TB.summary.run++;
-
+			
 			if (TB.config.noCatch) {
 				testEnclosure();
 			} else {
@@ -153,17 +167,17 @@ TB.test = new Overload({
 					console.log(TB.indent + '----------------------------------------------------');
 					console.log(TB.indent + colors.red.bold('FAILED\t'), 'Ran ' + TB.assertions + ' assertions and took', colors.magenta.bold(TB.timeRecord[name] + ' ms'));
 					console.log('');
-
+					
 					TB.testResult[name] = false;
 					TB.summary.failed++;
-
+					
 					setImmediate(function () {
 						callback(false);
 					});
 				}
 			}
 		};
-
+		
 		// Check if we have a timeout for the test
 		if (options && options.timeout && typeof options.timeout === 'number') {
 			TB.timeout = options.timeout;
@@ -173,11 +187,11 @@ TB.test = new Overload({
 
 TB.time = function time (name, shouldBeLessThanMs) {
 	var totalTime = 0;
-
+	
 	if (shouldBeLessThanMs === undefined) {
 		shouldBeLessThanMs = TB.timeout;
 	}
-
+	
 	if (TB.timeStep[name] === undefined) {
 		TB.timeStep[name] = new Date().getTime();
 	} else {
@@ -185,7 +199,7 @@ TB.time = function time (name, shouldBeLessThanMs) {
 		totalTime = new Date().getTime() - TB.timeStep[name];
 		TB.timeStepRecord[name] = totalTime;
 		delete TB.timeStep[name];
-
+		
 		console.log(TB.indent + colors.green.bold('PASSED\t'), colors.green.bold('TIME\t'), colors.green.bold(name) + "\t", colors.magenta.bold(totalTime + ' ms') + colors.green(' <= ') + colors.magenta.bold(shouldBeLessThanMs + ' ms'));
 		if (totalTime > shouldBeLessThanMs) {
 			throw('Action took longer than maximum ' + shouldBeLessThanMs + ' ms!');
@@ -199,7 +213,7 @@ TB.expect = function (num, name) {
 	} else {
 		name += ' ';
 	}
-
+	
 	if (TB.assertions !== num) {
 		throw("EXPECT\t " + name + "Expected " + num + ' assertions but ' + TB.assertions + ' were run!');
 	} else {
@@ -239,21 +253,24 @@ TB.start = function start (groupsObj) {
 		groupEnclosure,
 		groupArr = [],
 		testCountTotal = 0;
-
+	
 	TB.assertions = 0;
-	TB.timeout = 60000; // Default 60 second timeout
-
+	
+	if (!TB.timeout) {
+		TB.timeout = 60000; // Default 60 second timeout
+	}
+	
 	if (groupsObj === undefined) {
 		groupsObj = TB.tests;
 	}
-
+	
 	// Pre-process groups and tests to count totals
 	for (group in groupsObj) {
 		if (groupsObj.hasOwnProperty(group)) {
 			testCountTotal += Object.keys(groupsObj[group]).length;
 		}
 	}
-
+	
 	groupEnclosure = function (testsObj) {
 		return function (groupFinished) {
 			async.series(testsObj, function (err, results) {
@@ -261,7 +278,7 @@ TB.start = function start (groupsObj) {
 			});
 		};
 	};
-
+	
 	// Loop groups
 	for (group in groupsObj) {
 		if (groupsObj.hasOwnProperty(group)) {
@@ -270,9 +287,9 @@ TB.start = function start (groupsObj) {
 			}
 		}
 	}
-
+	
 	TB.timeRecord.__startTime = new Date().getTime();
-
+	
 	/*if (TB.config.cuteMode) {
 	 console.log("                        _     _");
 	 console.log("                       ( \\---/ )");
@@ -280,13 +297,13 @@ TB.start = function start (groupsObj) {
 	 console.log("__________________,--._(___Y___)_,--.______________________");
 	 console.log("                  `--'           `--'     ");
 	 }*/
-
+	
 	async.series(groupArr, function (err, results) {
 		var colorFunc1,
 			colorFunc2;
-
+		
 		TB.timeRecord.__totalTime = new Date().getTime() - TB.timeRecord.__startTime;
-
+		
 		if (TB.summary.failed) {
 			colorFunc1 = colors.red.bold;
 			colorFunc2 = colors.red;
@@ -298,7 +315,7 @@ TB.start = function start (groupsObj) {
 				return str;
 			};
 		}
-
+		
 		if (TB.config.cuteMode) {
 			if (TB.summary.failed) {
 				console.log('                        _     _');
@@ -322,13 +339,13 @@ TB.start = function start (groupsObj) {
 				console.log('                     `--\'     `--\' ');
 			}
 		}
-
+		
 		console.log(colorFunc1('------------------------------------------------------------'));
 		console.log(colorFunc1('| Run     | Passed     | Failed     | Total Time           |'));
 		console.log(colorFunc1('------------------------------------------------------------'));
 		console.log(colorFunc1('| ') + colorFunc2(padRight(TB.summary.run, " ", 7) + ' | ' + padRight(TB.summary.passed, " ", 10) + ' | ' + padRight(TB.summary.failed, " ", 10) + ' | ' + padRight(TB.timeRecord.__totalTime + ' ms', " ", 20)) + colorFunc1(' |'));
 		console.log(colorFunc1('------------------------------------------------------------'));
-
+		
 		if (TB.summary.failed) {
 			setTimeout(function () {
 				process.exit(1);
